@@ -6,7 +6,7 @@ services:
       context: ./
     image: nuxt_prod
     container_name: nuxt_prod
-    command: node .app/output/server/index.mjs
+    command: node ./output/server/index.mjs
     volumes:
     - .:/app
     - /app/node_modules
@@ -18,7 +18,7 @@ services:
       - 3000
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nuxt.priority=100"
+      - "traefik.http.routers.nuxt.priority=5"
       # Asociates router with your specific domain or subdomain and websecure (https)
       # - "traefik.http.routers.nuxt.rule=Host(`${DOMAIN}`) || Host(`www.${DOMAIN}`)"
       - "traefik.http.routers.nuxt.rule=(Host(`${DOMAIN}`) || Host(`www.${DOMAIN}`))"
