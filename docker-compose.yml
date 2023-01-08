@@ -1,15 +1,18 @@
 version: '3.9'
 
+volumes:
+  node_modules: {}
+
 services:
   nuxt:
     build:
       context: ./
     image: nuxt_prod
     container_name: nuxt_prod
-    command: node ./output/server/index.mjs
+    # command: node ./output/server/index.mjs
     volumes:
-    - .:/app
-    - /app/node_modules
+    # - .:/app
+    - node_modules:/app/node_modules
     networks:
       - front
       - back

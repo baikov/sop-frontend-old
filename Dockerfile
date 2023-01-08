@@ -1,17 +1,31 @@
-FROM node:16-alpine
+# Build
+FROM node:16-alpine as builder
 
+# ENV NODE_ENV production
 WORKDIR /app
 
-RUN apk update && apk upgrade
-RUN apk add git
+COPY package*.json ./
+COPY ./yarn.lock ./
 
-COPY ./package*.json /app/
-COPY ./yarn.lock /app/
-
-RUN yarn
-RUN npm cache clean --force
-RUN npm run build
+RUN yarn install --prefer-offline --pure-lockfile --non-interactive --production=false
 
 COPY . .
 
-ENV PATH ./node_modules/.bin/:$PATH
+RUN yarn build
+
+# Run
+FROM node:16-alpine as prod
+
+ENV NODE_ENV production
+WORKDIR /app
+
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/yarn.lock ./yarn.lock
+
+COPY --from=builder /app/.output ./.output
+
+ENV HOST 0.0.0.0
+
+# EXPOSE 3000
+
+CMD ["node", ".output/server/index.mjs"]
