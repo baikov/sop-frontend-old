@@ -69,6 +69,7 @@ const validate = async () => {
 <template>
   <PageWrapper>
     <PageSection class="mb-0">
+      <PageCTA text="Whaaaat?!" link="https://baikov.dev"/>
       <Alert
         type="success"
         title="This is a page for testing purposes"
