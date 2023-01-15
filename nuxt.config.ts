@@ -3,6 +3,14 @@ import IconsResolver from 'unplugin-icons/resolver'
 
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
 export default defineNuxtConfig({
+  runtimeConfig: {
+    // Private keys are only available on the server
+    apiSecret: '123',
+    // Public keys that are exposed to the client
+    public: {
+        apiUrl: process.env.API_URL
+    }
+  },
   // server side rendering mode
   ssr: true,
 
@@ -11,6 +19,19 @@ export default defineNuxtConfig({
     strict: true,
     typeCheck: true,
   },
+
+  //routers
+  router:{
+    options:{
+        strict: true
+    }
+  },
+  // redirect: [
+  //   {
+  //     from: '^.*(?<!\/)$',
+  //     to: (from, req) => req.url + '/'
+  //   }
+  // ],
 
   // css
   css: [
